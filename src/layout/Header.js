@@ -1,17 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import Button from '../components/Button';
+
+// 네비게이션 항목 정의
+const NAV_ITEMS = [
+  { path: '', label: '홈' },
+  { path: '/board', label: '게시글' },
+  { path: '/meeting', label: '회의록' },
+  { path: '/files', label: '자료실' },
+  { path: '/schedule', label: '일정' },
+  { path: '/setting', label: '설정' }
+];
+
+// 네비게이션 링크 스타일 유틸리티
+const getNavLinkStyles = (currentPath, targetPath) => {
+  const baseStyles = "text-white font-medium relative px-3 py-1 transition-colors hover:text-emerald-100";
+  const activeStyles = "after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[2px] after:bg-white";
+  
+  return `${baseStyles} ${currentPath === targetPath ? activeStyles : ''}`;
+};
 
 const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
   const location = useLocation();
   
-  const showNavPaths = ['/posts', '/meetings', '/resources', '/schedule'];
-  const shouldShowNav = showNavPaths.includes(location.pathname);
-
+  // URL에서 roomId 추출 (study/2 형식일 때)
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  const roomId = pathSegments[0] === 'study' ? pathSegments[1] : null;
+  
   const toggleSearch = () => {
     setShowSearch(!showSearch);
   };
+
+  const shouldShowNav = location.pathname.startsWith('/study');
+  
+  useEffect(() => {
+    console.log('Current roomId:', roomId);
+  }, [roomId]);
 
   return (
     <div className="flex flex-col border-b shadow-sm">
@@ -40,13 +65,20 @@ const Header = () => {
         </div>
       </div>
       
-      {shouldShowNav && (
+      {shouldShowNav && roomId && (
         <nav className="flex justify-center space-x-8 px-4 py-3 bg-emerald-400">
-          <Link to='/' className="text-white font-medium">홈</Link>
-          <Link to='/posts' className="text-white font-medium">게시글</Link>
-          <Link to='/meetings' className="text-white font-medium">회의록</Link>
-          <Link to='/resources' className="text-white font-medium">자료실</Link>
-          <Link to='/schedule' className="text-white font-medium">일정</Link>
+          {NAV_ITEMS.map(({ path, label }) => (
+            <Link
+              key={path}
+              to={`/study/${roomId}${path}`}
+              className={getNavLinkStyles(
+                location.pathname,
+                `/study/${roomId}${path}`
+              )}
+            >
+              {label}
+            </Link>
+          ))}
         </nav>
       )}
     </div>

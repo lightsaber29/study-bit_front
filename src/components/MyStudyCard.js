@@ -1,11 +1,13 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const MyStudyCard = ({
   title,
   isEmpty,
+  roomId,
   photoUrl
 }) => {
+  const navigate = useNavigate();
   return (
     <>
       {isEmpty ? (
@@ -13,7 +15,7 @@ const MyStudyCard = ({
           내가 만든 스터디 또는 초대 받은 스터디가 등록됩니다.
         </div>
       ) : (
-        <div className="w-full bg-gray-200 h-60 rounded-lg">
+        <div className="w-full bg-gray-200 h-60 rounded-lg" onClick={() => navigate(`/study/${roomId}`)}>
           <div className="h-2/3 overflow-hidden">
             <img src={photoUrl} alt="photoUrl" className="w-full h-full object-cover rounded-t-lg" />
           </div>

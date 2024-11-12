@@ -38,8 +38,8 @@ const Home = () => {
         <div className="bg-gray-100 p-4 rounded-lg shadow-md">
           <h2 className="text-lg font-semibold mb-4">내 스터디</h2>
           <div className="flex items-center space-x-4">
-            <MyStudyCard isEmpty={false} title="스터디 1" photoUrl='/images/aespa_karina.jpeg' />
-            <MyStudyCard isEmpty={false} title="스터디 2" photoUrl='/images/aespa_winter.jpeg' />
+            <MyStudyCard isEmpty={false} title="스터디 1" photoUrl='/images/aespa_karina.jpeg' roomId='1' />
+            <MyStudyCard isEmpty={false} title="스터디 2" photoUrl='/images/aespa_winter.jpeg' roomId='2' />
             <MyStudyCard isEmpty={true} />
             <MyStudyCard isEmpty={true} />
           </div>

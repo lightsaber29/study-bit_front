@@ -7,8 +7,11 @@ import LoginForm from "./routes/sample/my_weapon/LoginForm";
 import SigninForm from "./routes/sample/my_weapon/SigninForm";
 import LecturePlatform from "./routes/sample/my_weapon/LecturePlatform";
 import StudyList from "./routes/sample/my_weapon/StudyList";
-import Board from "./routes/study/Board";
-
+import StudyHome from "./routes/study/StudyHome";
+import StudyBoard from "./routes/study/StudyBoard";
+import StudyFiles from "./routes/study/StudyFiles";
+import StudySchedule from "./routes/study/StudySchedule";
+import StudyMeeting from "./routes/study/StudyMeeting";
 import Signup from "./routes/sample/auth/signup";
 import Login from "./routes/sample/auth/login";
 import Home from "./routes/Home";
@@ -29,7 +32,11 @@ function App() {
         <Route path="/weapon/signin" element={<SigninForm/>}/>
         <Route path="/weapon/lecture" element={<LecturePlatform/>}/>
         <Route path="/weapon/study" element={<StudyList/>}/>
-        <Route path="/study/board" element={<Board/>}/>
+        <Route path="/study/:roomId" element={<StudyHome/>}/>
+        <Route path="/study/:roomId/board" element={<StudyBoard/>}/>
+        <Route path="/study/:roomId/files" element={<StudyFiles/>}/>
+        <Route path="/study/:roomId/schedule" element={<StudySchedule/>}/>
+        <Route path="/study/:roomId/meeting" element={<StudyMeeting/>}/>
       </Routes>
     </div>
   );
