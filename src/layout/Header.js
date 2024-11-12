@@ -112,7 +112,7 @@ const Header = () => {
             <span>찾기</span>
             {showSearch && searchQuery && '🔍'}
           </Button>
-          <Button variant="primary" className="text-white-700">스터디 만들기</Button>
+          <Button variant="primary" className="text-white-700" onClick={() => navigate('/create')}>스터디 만들기</Button>
           <Button variant="secondary" className="text-white-700" onClick={() => navigate('/notice')}>공지사항</Button>
           <Button variant="secondary" className="text-white-700" onClick={() => navigate('/question')}>질문하기</Button>
           <Button variant="primary" className="text-white-700" onClick={() => navigate('/login')}>로그인</Button>
