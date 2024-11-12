@@ -24,7 +24,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg">
         {/* 로고 및 타이틀 */}
         <div className="text-center">
@@ -79,7 +79,7 @@ const Login = () => {
           </Button>
 
           {/* 추가 링크 */}
-          <div className="flex items-center justify-between text-sm">
+          {/* <div className="flex items-center justify-between text-sm">
             <div className="flex items-center">
               <input
                 id="remember-me"
@@ -94,7 +94,7 @@ const Login = () => {
             <Link to="/forgot-password" className="text-blue-500 hover:text-blue-600">
               비밀번호 찾기
             </Link>
-          </div>
+          </div> */}
 
           {/* 회원가입 링크 */}
           <div className="text-center text-sm">

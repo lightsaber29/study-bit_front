@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 // 네비게이션 항목 정의
 const NAV_ITEMS = [
@@ -23,6 +24,7 @@ const getNavLinkStyles = (currentPath, targetPath) => {
 const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   
   // URL에서 roomId 추출 (study/2 형식일 때)
   const pathSegments = location.pathname.split('/').filter(Boolean);
@@ -60,7 +62,7 @@ const Header = () => {
           <Button variant="primary" className="text-white-700">스터디 만들기</Button>
           <Button variant="secondary" className="text-white-700">공지사항</Button>
           <Button variant="secondary" className="text-white-700">질문하기</Button>
-          <Button variant="primary" className="text-white-700">로그인</Button>
+          <Button variant="primary" className="text-white-700" onClick={() => navigate('/login')}>로그인</Button>
           <Button variant="primary" className="text-white-700">프로필</Button>
         </div>
       </div>
