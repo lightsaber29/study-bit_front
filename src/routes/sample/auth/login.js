@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useFormInput } from '../../../hooks';
-import Button from '../../../components/Button';
+import { useFormInput } from '@hooks';
+import Button from '@components/Button';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../../../store/userSlice';
+import { setUser } from '@store/userSlice';
 
 const Login = () => {
   const navigate = useNavigate();

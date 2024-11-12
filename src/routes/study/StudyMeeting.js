@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const StudyMeeting = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openMeetingId, setOpenMeetingId] = useState(null);
 
   // 예시 회의록 데이터
