@@ -1,46 +1,82 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Button from '../../components/Button';
+import useFormInput from 'hooks/useFormInput';
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+
+  const nicknameRef = useRef();
+  const passwordRef = useRef();
+  const emailRef = useRef();
+
+  const { values, handleChange } = useFormInput({
     nickname: '',
-    profileImage: null
+    password: '',
+    email: ''
   });
-  const [previewImage, setPreviewImage] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const { nickname, password, email } = values;
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData(prev => ({
-        ...prev,
-        profileImage: file
-      }));
-      // 이미지 미리보기
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+  // useEffect(() => {
+  //   console.log('check values :: ', values);
+  // }, [values]);
+
+  const validateForm = () => {
+    // 이메일 검증
+    if (!email) {
+      alert('이메일을 입력해주세요.');
+      emailRef.current.focus();
+      return false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert('올바른 이메일 형식이 아닙니다.');
+      emailRef.current.focus();
+      return false;
     }
+
+    // 비밀번호 검증
+    if (!password) {
+      alert('비밀번호를 입력해주세요.');
+      passwordRef.current.focus();
+      return false;
+    } else if (password.length < 8) {
+      alert('비밀번호는 8자 이상이어야 합니다.');
+      passwordRef.current.focus();
+      return false;
+    }
+
+    // 닉네임 검증
+    if (!nickname) {
+      alert('닉네임을 입력해주세요.');
+      nicknameRef.current.focus();
+      return false;
+    } else if (nickname.length < 2) {
+      alert('닉네임은 2자 이상이어야 합니다.');
+      nicknameRef.current.focus();
+      return false;
+    }
+  
+    return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: 회원가입 로직 구현
-    console.log(formData);
-    navigate('/login');
+    // console.log('check values before submit :: ', values);
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      await axios.post('/api/member/signup', values);
+      // console.log('회원가입 성공:', res.data);
+      alert('회원가입이 완료되었습니다. 로그인 해 주세요.');
+      navigate('/login');
+    } catch (error) {
+      console.error('회원가입 실패:', error);
+      const errorMessage = error.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
+      alert(errorMessage);
+    }
   };
 
   return (
@@ -55,34 +91,8 @@ const Signup = () => {
         </div>
 
         {/* 회원가입 폼 */}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit} noValidate>
           <div className="space-y-4">
-            {/* 프로필 이미지 업로드 */}
-            <div className="text-center">
-              <div className="mb-4">
-                {previewImage ? (
-                  <img
-                    src={previewImage}
-                    alt="Profile preview"
-                    className="w-32 h-32 rounded-full mx-auto object-cover"
-                  />
-                ) : (
-                  <div className="w-32 h-32 rounded-full mx-auto bg-gray-200 flex items-center justify-center">
-                    <span className="text-gray-500">이미지 없음</span>
-                  </div>
-                )}
-              </div>
-              <label className="cursor-pointer inline-block bg-gray-100 px-4 py-2 rounded-md hover:bg-gray-200">
-                <span className="text-sm text-gray-600">프로필 이미지 선택</span>
-                <input
-                  type="file"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-              </label>
-            </div>
-
             {/* 이메일 입력 */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -92,11 +102,11 @@ const Signup = () => {
                 id="email"
                 name="email"
                 type="email"
-                required
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                 placeholder="이메일을 입력하세요"
-                value={formData.email}
+                value={email}
                 onChange={handleChange}
+                ref={emailRef}
               />
             </div>
 
@@ -109,11 +119,11 @@ const Signup = () => {
                 id="password"
                 name="password"
                 type="password"
-                required
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                 placeholder="비밀번호를 입력하세요"
-                value={formData.password}
+                value={password}
                 onChange={handleChange}
+                ref={passwordRef}
               />
             </div>
 
@@ -126,11 +136,11 @@ const Signup = () => {
                 id="nickname"
                 name="nickname"
                 type="text"
-                required
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                 placeholder="닉네임을 입력하세요"
-                value={formData.nickname}
+                value={nickname}
                 onChange={handleChange}
+                ref={nicknameRef}
               />
             </div>
           </div>
