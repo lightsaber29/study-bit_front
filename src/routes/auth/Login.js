@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import useFormInput from 'hooks/useFormInput';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setUser } from 'store/userSlice';
+import { setMember } from 'store/memberSlice';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ const Login = () => {
       // 로그인 결과에서 반환되는 토큰 가져오기
       const token = res.headers['authorization'];
       if (token) {
-        dispatch(setUser({
+        dispatch(setMember({
           ...res.data,
           token: token.split(' ')[1]
         }));

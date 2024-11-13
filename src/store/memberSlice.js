@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Redux Toolkit으로 코드 간소화
 // 유저 정보 저장
-const userSlice = createSlice({
-  name: 'user',
+const memberSlice = createSlice({
+  name: 'member',
   initialState: {
     memberId: null,
     email: null,
@@ -12,14 +12,14 @@ const userSlice = createSlice({
     token: null
   },
   reducers: {
-    setUser: (state, action) => {
+    setMember: (state, action) => {
       state.memberId = action.payload.memberId;
       state.email = action.payload.email;
       state.role = action.payload.role;
       state.nickName = action.payload.nickName;
       state.token = action.payload.token;
     },
-    clearUser: (state) => {
+    clearMember: (state) => {
       state.memberId = null;
       state.email = null;
       state.role = null;
@@ -29,5 +29,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
-export default userSlice.reducer;
+export const { setMember, clearMember } = memberSlice.actions;
+export default memberSlice.reducer;

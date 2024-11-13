@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const ProfileModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -15,9 +16,7 @@ const ProfileModal = ({ isOpen, onClose }) => {
 
   const menuItems = [
     { label: '내 프로필', onClick: () => navigate('/profile') },
-    // { label: '내 아이템', onClick: () => navigate('/items') },
-    // { label: '결제 및 구독내역', onClick: () => navigate('/payments') },
-    // { label: '내 쿠폰', onClick: () => navigate('/coupons') }
+    // { label: '내 아이템', onClick: () => navigate('/items') }
   ];
 
   return (
