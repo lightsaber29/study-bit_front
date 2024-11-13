@@ -40,10 +40,10 @@ const Signup = () => {
       alert('비밀번호를 입력해주세요.');
       passwordRef.current.focus();
       return false;
-    } else if (password.length < 8) {
-      alert('비밀번호는 8자 이상이어야 합니다.');
-      passwordRef.current.focus();
-      return false;
+    // } else if (password.length < 8) {
+    //   alert('비밀번호는 8자 이상이어야 합니다.');
+    //   passwordRef.current.focus();
+    //   return false;
     }
 
     // 닉네임 검증
