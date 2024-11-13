@@ -1,26 +1,82 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
+import useFormInput from 'hooks/useFormInput';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setUser } from 'store/userSlice';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+  const dispatch = useDispatch();
+
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  const { values, handleChange, resetForm } = useFormInput({
+    // email: '',
+    // password: ''
+    email: 'lightsaber2929@gmail.com',
+    password: '1234'
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const { email, password } = values;
+
+  useEffect(() => {
+    console.log('check values :: ', values);
+  }, [values]);
+
+  const validateForm = () => {
+    // 이메일 검증
+    if (!email) {
+      alert('이메일을 입력해주세요.');
+      emailRef.current.focus();
+      return false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert('올바른 이메일 형식이 아닙니다.');
+      emailRef.current.focus();
+      return false;
+    }
+
+    // 비밀번호 검증
+    if (!password) {
+      alert('비밀번호를 입력해주세요.');
+      passwordRef.current.focus();
+      return false;
+    // } else if (password.length < 8) {
+    //   alert('비밀번호는 8자 이상이어야 합니다.');
+    //   passwordRef.current.focus();
+    //   return false;
+    }
+  
+    return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: 로그인 로직 구현
-    navigate('/'); // 로그인 성공 시 홈으로 이동
+    if (!validateForm()) {
+      return;
+    }
+    try {
+      const res = await axios.post('/api/member/login', values);
+      // 로그인 결과에서 반환되는 토큰 가져오기
+      const token = res.headers['authorization'];
+      if (token) {
+        dispatch(setUser({
+          ...res.data,
+          token: token.split(' ')[1]
+        }));
+        alert('로그인되었습니다.');
+        resetForm();
+        navigate('/');
+      } else {
+        alert('로그인 중 오류가 발생했습니다. 다시 시도 해 주세요.');
+      }
+    } catch (error) {
+      console.error('로그인 실패:', error);
+      const errorMessage = error.response?.data?.message || '로그인 중 오류가 발생했습니다.';
+      alert(errorMessage);
+    }
   };
 
   return (
@@ -35,7 +91,7 @@ const Login = () => {
         </div>
 
         {/* 로그인 폼 */}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit} noValidate>
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -48,8 +104,9 @@ const Login = () => {
                 required
                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="이메일을 입력하세요"
-                value={formData.email}
+                value={email}
                 onChange={handleChange}
+                ref={emailRef}
               />
             </div>
             <div>
@@ -63,8 +120,9 @@ const Login = () => {
                 required
                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="비밀번호를 입력하세요"
-                value={formData.password}
+                value={password}
                 onChange={handleChange}
+                ref={passwordRef}
               />
             </div>
           </div>
@@ -105,7 +163,7 @@ const Login = () => {
           </div>
 
           {/* 소셜 로그인 */}
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300"></div>
@@ -126,7 +184,7 @@ const Login = () => {
                 <img src="/images/naver.png" alt="Naver" className="h-5 w-5" />
               </button>
             </div>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>

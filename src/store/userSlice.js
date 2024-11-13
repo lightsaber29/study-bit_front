@@ -5,20 +5,26 @@ import { createSlice } from '@reduxjs/toolkit';
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    username: null,
-    token: null,
+    memberId: null,
+    email: null,
     role: null,
+    nickName: null,
+    token: null
   },
   reducers: {
     setUser: (state, action) => {
-      state.username = action.payload.username;
-      state.token = action.payload.token;
+      state.memberId = action.payload.memberId;
+      state.email = action.payload.email;
       state.role = action.payload.role;
+      state.nickName = action.payload.nickName;
+      state.token = action.payload.token;
     },
     clearUser: (state) => {
-      state.username = null;
-      state.token = null;
+      state.memberId = null;
+      state.email = null;
       state.role = null;
+      state.nickName = null;
+      state.token = null;
     },
   },
 });
