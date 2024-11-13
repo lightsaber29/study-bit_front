@@ -38,9 +38,9 @@ const Header = () => {
 
   const shouldShowNav = location.pathname.startsWith('/study');
   
-  useEffect(() => {
-    console.log('Current roomId:', roomId);
-  }, [roomId]);
+  // useEffect(() => {
+  //   console.log('Current roomId:', roomId);
+  // }, [roomId]);
 
   const handleProfileClick = (e) => {
     e.stopPropagation();

@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// Redux Toolkit으로 코드 간소화
+// 유저 정보 저장
 const userSlice = createSlice({
   name: 'user',
   initialState: {
