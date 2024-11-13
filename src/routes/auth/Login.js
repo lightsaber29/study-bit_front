@@ -14,17 +14,15 @@ const Login = () => {
   const passwordRef = useRef();
 
   const { values, handleChange, resetForm } = useFormInput({
-    // email: '',
-    // password: ''
-    email: 'lightsaber2929@gmail.com',
-    password: '1234'
+    email: '',
+    password: ''
   });
 
   const { email, password } = values;
 
-  useEffect(() => {
-    console.log('check values :: ', values);
-  }, [values]);
+  // useEffect(() => {
+  //   console.log('check values :: ', values);
+  // }, [values]);
 
   const validateForm = () => {
     // 이메일 검증

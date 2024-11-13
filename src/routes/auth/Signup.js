@@ -62,14 +62,11 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log('check values before submit :: ', values);
     if (!validateForm()) {
       return;
     }
-
     try {
       await axios.post('/api/member/signup', values);
-      // console.log('회원가입 성공:', res.data);
       alert('회원가입이 완료되었습니다. 로그인 해 주세요.');
       navigate('/login');
     } catch (error) {
