@@ -3,10 +3,13 @@ import Button from '../../components/Button';
 import Card from '../../components/Card';
 import MyStudyCard from '../../components/MyStudyCard';
 import Modal from '../../components/Modal';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
   const [studyList, setStudyList] = useState([]);
   const [selectedStudy, setSelectedStudy] = useState(null);
+
+  const token = useSelector(state => state.member?.token);
 
   useEffect(() => {
     setStudyList([
@@ -34,33 +37,35 @@ const Home = () => {
   return (
     <div>
       {/* 내 스터디 & 내 목표 섹션 */}
-      <div className="gap-6 mb-8">
-        <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-          <h2 className="text-lg font-semibold mb-4">내 스터디</h2>
-          <div className="flex items-center space-x-4">
-            <MyStudyCard isEmpty={false} title="스터디 1" photoUrl='/images/aespa_karina.jpeg' roomId='1' />
-            <MyStudyCard isEmpty={false} title="스터디 2" photoUrl='/images/aespa_winter.jpeg' roomId='2' />
-            <MyStudyCard isEmpty={true} />
-            <MyStudyCard isEmpty={true} />
+      {token && (
+        <div className="gap-6 mb-8">
+          <div className="bg-gray-100 p-4 rounded-lg shadow-md">
+            <h2 className="text-lg font-semibold mb-4">내 스터디</h2>
+            <div className="flex items-center space-x-4">
+              <MyStudyCard isEmpty={false} title="스터디 1" photoUrl='/images/aespa_karina.jpeg' roomId='1' />
+              <MyStudyCard isEmpty={false} title="스터디 2" photoUrl='/images/aespa_winter.jpeg' roomId='2' />
+              <MyStudyCard isEmpty={true} />
+              <MyStudyCard isEmpty={true} />
+            </div>
           </div>
-        </div>
 
-        {/* <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-          <h2 className="text-lg font-semibold mb-4">내 목표</h2>
-          <div className="text-sm text-gray-600 mb-2">오늘 공부할 시간 / 내 목표 시간</div>
-          <div className="text-2xl font-bold mb-4">0시간 0분 / 0시간 0분</div>
-          <input
-            type="text"
-            placeholder="내 목표시간을 설정해주세요."
-            className="w-full p-2 border rounded-lg mb-4"
-          />
-          <input
-            type="text"
-            placeholder="메모를 추가해보세요."
-            className="w-full p-2 border rounded-lg"
-          />
-        </div> */}
-      </div>
+          {/* <div className="bg-gray-100 p-4 rounded-lg shadow-md">
+            <h2 className="text-lg font-semibold mb-4">내 목표</h2>
+            <div className="text-sm text-gray-600 mb-2">오늘 공부할 시간 / 내 목표 시간</div>
+            <div className="text-2xl font-bold mb-4">0시간 0분 / 0시간 0분</div>
+            <input
+              type="text"
+              placeholder="내 목표시간을 설정해주세요."
+              className="w-full p-2 border rounded-lg mb-4"
+            />
+            <input
+              type="text"
+              placeholder="메모를 추가해보세요."
+              className="w-full p-2 border rounded-lg"
+            />
+          </div> */}
+        </div>
+      )}
 
       {/* 공개 스터디 섹션 */}
       <div className="mb-8">

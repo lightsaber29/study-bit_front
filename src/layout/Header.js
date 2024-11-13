@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from '../components/Button';
 import ProfileModal from '../components/ProfileModal';
+import { useSelector } from 'react-redux';
 
 // 네비게이션 항목 정의
 const NAV_ITEMS = [
@@ -27,14 +28,15 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const token = useSelector(state => state.member?.token);
   
   // URL에서 roomId 추출 (study/2 형식일 때)
   const pathSegments = location.pathname.split('/').filter(Boolean);
   const roomId = pathSegments[0] === 'study' ? pathSegments[1] : null;
   
-  const toggleSearch = () => {
-    setShowSearch(!showSearch);
-  };
+  // const toggleSearch = () => {
+  //   setShowSearch(!showSearch);
+  // };
 
   const shouldShowNav = location.pathname.startsWith('/study');
   
@@ -115,22 +117,32 @@ const Header = () => {
           <Button variant="primary" className="text-white-700" onClick={() => navigate('/create')}>스터디 만들기</Button>
           <Button variant="secondary" className="text-white-700" onClick={() => navigate('/notice')}>공지사항</Button>
           <Button variant="secondary" className="text-white-700" onClick={() => navigate('/question')}>질문하기</Button>
-          <Button variant="primary" className="text-white-700" onClick={() => navigate('/login')}>로그인</Button>
-          <div className="relative">
+          
+          {token ? (
+            <div className="relative">
+              <Button 
+                variant="primary" 
+                className="text-white-700 profile-button"
+                onClick={handleProfileClick}
+              >
+                프로필
+              </Button>
+              <div className="profile-modal">
+                <ProfileModal 
+                  isOpen={showProfileModal} 
+                  onClose={() => setShowProfileModal(false)} 
+                />
+              </div>
+            </div>
+          ) : (
             <Button 
               variant="primary" 
-              className="text-white-700 profile-button"
-              onClick={handleProfileClick}
+              className="text-white-700" 
+              onClick={() => navigate('/login')}
             >
-              프로필
+              로그인
             </Button>
-            <div className="profile-modal">
-              <ProfileModal 
-                isOpen={showProfileModal} 
-                onClose={() => setShowProfileModal(false)} 
-              />
-            </div>
-          </div>
+          )}
         </div>
       </div>
       
