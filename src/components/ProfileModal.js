@@ -1,23 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearMember } from 'store/memberSlice';
 
 const ProfileModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const member = useSelector(state => state.member);
 
   if (!isOpen) return null;
-
-  const profileData = {
-    photoUrl: '/images/profile-default.png',
-    nickname: '최수빈',
-    email: 'lightsaber2929@gmail.com',
-    joinDate: '2024년 11월 16일'
-  };
 
   const menuItems = [
     { label: '내 프로필', onClick: () => navigate('/profile') },
     // { label: '내 아이템', onClick: () => navigate('/items') }
   ];
+
+  const handleLogout = () => {
+    dispatch(clearMember());
+    alert('로그아웃 되었습니다.');
+    onClose();
+    navigate('/');
+  };
 
   return (
     <div className="fixed top-14 right-4 z-50 w-80 bg-white rounded-lg shadow-lg">
@@ -25,13 +28,13 @@ const ProfileModal = ({ isOpen, onClose }) => {
       <div className="p-4 border-b">
         <div className="flex items-center gap-3">
           <img
-            src={profileData.photoUrl}
+            src={`${process.env.PUBLIC_URL}/images/default_profile.png`}
             alt="profile"
             className="w-12 h-12 rounded-full"
           />
           <div>
-            <h3 className="font-semibold">{profileData.nickname}</h3>
-            <p className="text-sm text-gray-500">{profileData.email}</p>
+            <h3 className="font-semibold">{member.nickName}</h3>
+            <p className="text-sm text-gray-500">{member.email}</p>
           </div>
         </div>
         {/* <div className="mt-2 text-sm text-gray-500">
@@ -72,8 +75,9 @@ const ProfileModal = ({ isOpen, onClose }) => {
         <button 
           onClick={() => {
             // 로그아웃 처리
-            console.log('로그아웃');
-            onClose();
+            // console.log('로그아웃');
+            // onClose();
+            handleLogout();
           }}
           className="w-full px-4 py-2 text-left text-red-600 hover:bg-gray-100 rounded-lg transition-colors"
         >
