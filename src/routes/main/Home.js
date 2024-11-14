@@ -4,12 +4,13 @@ import Card from '../../components/Card';
 import MyStudyCard from '../../components/MyStudyCard';
 import Modal from '../../components/Modal';
 import { useSelector } from 'react-redux';
+import { selectToken } from 'store/memberSlice';
 
 const Home = () => {
   const [studyList, setStudyList] = useState([]);
   const [selectedStudy, setSelectedStudy] = useState(null);
 
-  const token = useSelector(state => state.member?.token);
+  const token = useSelector(selectToken);
 
   useEffect(() => {
     setStudyList([
