@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearMember } from 'store/memberSlice';
+import { clearMember, selectMember } from 'store/memberSlice';
 
 const ProfileModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const member = useSelector(state => state.member);
+  const member = useSelector(selectMember);
 
   if (!isOpen) return null;
 
