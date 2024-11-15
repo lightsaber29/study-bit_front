@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UploadImage from 'components/UploadImage';
+import useFormInput from 'hooks/useFormInput';
 
 const StudySettings = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+
+  const { values, handleChange, setValues } = useFormInput({
     password: '',
-    description: '직장인 공부팟입니다.',
+    description: '',
     image: null
-  });
+  })
+
+  const { password, description, image } = values;
 
   const [showPassword, setShowPassword] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
   const handleImageChange = (file) => {
-    setFormData(prev => ({
+    setValues(prev => ({
       ...prev,
       image: file
     }));
@@ -31,7 +27,7 @@ const StudySettings = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // TODO: 설정 변경 API 연동
-    console.log('설정 변경:', formData);
+    console.log('설정 변경:', values);
   };
 
   const handleLeaveStudy = () => {
@@ -64,7 +60,7 @@ const StudySettings = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                value={formData.password}
+                value={password}
                 onChange={handleChange}
                 placeholder="새 비밀번호 입력"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg pr-10"
@@ -97,7 +93,7 @@ const StudySettings = () => {
             </label>
             <textarea
               name="description"
-              value={formData.description}
+              value={description}
               onChange={handleChange}
               rows="4"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg"
