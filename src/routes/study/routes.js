@@ -7,6 +7,7 @@ const StudyFiles = lazy(() => import('./StudyFiles'));
 const StudySchedule = lazy(() => import('./StudySchedule'));
 const StudyMeeting = lazy(() => import('./StudyMeeting'));
 const StudySettings = lazy(() => import('./StudySettings'));
+const PortalTest = lazy(() => import('./createPortalTest'));
 
 const studyRoutes = [
   {
@@ -32,6 +33,10 @@ const studyRoutes = [
   {
     path: '/study/:roomId/settings',
     element: <StudySettings />
+  },
+  {
+    path: '/portal-test',
+    element: <PortalTest />
   }
 ];
 
